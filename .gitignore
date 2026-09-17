@@ -1,3 +1,9 @@
+# Project data: large models, audio samples, images
+ollama_basic/models/
+ollama_basic/voice/
+ollama_basic/imgs/
+ollama_basic/img_output/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

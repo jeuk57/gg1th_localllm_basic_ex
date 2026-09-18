@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main>
+    <form action="/edit/{{todo.id}}" method="post">
+        <textarea name="task" rows="5">{{todo.task}}</textarea>
+        <label for="completed">Done?</label>
+        <input type="checkbox" name="completed" {% if todo.completed %}checked{% endif %}>
+
+        <button type="submit">Save</button>
+    </form>
+    <div>
+        <h2>Task</h2>
+        {% for todo in todos %}
+        <div class="task">
+            <span class="task-text {% if todo.completed %}completed{% endif %}">{{ todo.task }}</span>
+            <div class="task-actions">
+                <a href="/edit/{{ todo.id }}" class="todo-btn">Edit</a>
+                <form class="delete-form" action="/delete/{{ todo.id }}" method="post">
+                    <button type="submit" class="todo-btn">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </main>
+    <script src="/static/js/main.js"></script>
+{% endblock content %}

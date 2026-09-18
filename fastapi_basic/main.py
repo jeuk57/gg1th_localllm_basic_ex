@@ -2,9 +2,23 @@ from fastapi import FastAPI
 
 from pydantic import BaseModel, HttpUrl
 from typing import Optional
+import uvicorn
 
 # FastAPI 객체 생성
 app = FastAPI()
+
+# DTO : 데이터 전송 객체
+class UserCreate(BaseModel):
+    username: str
+    password: str
+    avatar_url: Optional[HttpUrl] = None
+    user_fullname: Optional[str] = None
+
+# DTO : 응답 전송 객체
+class UserResponse(BaseModel):
+    username: str
+    avatar_url: HttpUrl
+
 
 # http://localhost:8000/
 # http://127.0.0.1:8000/
@@ -43,19 +57,21 @@ def create_user(user_id: int, q: str | None = None):
 
     return {"user_id": user_id, "q": q}
 
-# DTO : 데이터 전송 객체
-class UserCreate(BaseModel):
-    username: str
-    password: str
-    avatar_url: Optional[HttpUrl] = None
-    user_fullname: Optional[str] = None
-
-@app.post("/user_info/")
+@app.post("/user_info/", response_model=UserResponse)
 def create_user(user: UserCreate):
     # 비즈니스 로직
     print(f"username: {user.username}")
     print(f"avatar_url: {user.avatar_url}")
     print(f"user_fullname: {user.user_fullname}")
 
-    return user
+    user_info = UserResponse(
+        username=user.username, 
+        avatar_url=user.avatar_url
+        )
+    return user_info
     # return {"user": user}
+
+if __name__ == "__main__":
+    # uvicorn.run("현재 파일 이름:FastAPI객체_식별자", reload=True)
+    # reload=True : 개발자 모드
+    uvicorn.run("main:app",  reload=True)

@@ -9,4 +9,5 @@ dependencies = [
     "ollama>=0.6.2",
     "pygame>=2.6.1",
     "requests>=2.34.2",
+    "sqlalchemy>=2.0.54",
 ]
